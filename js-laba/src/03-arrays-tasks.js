@@ -19,15 +19,19 @@
  *    ['Array', 'Number', 'string'], 'Date'    => -1
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
-function findElement( arr, value ) {
-  const myArray = ['Ace', 10, true];
-  const arr = 10;
-  const value = true;
 
-  const index = myArray.indexOf(arr);
-  const notIndex = myArray.indexOf(value);
-  return (`Index of ${arr}: ${index}`) || (`Index of ${elementNotFound}: ${notIndex}`);
+
+function findElement(arr, value) {
+  const index = arr.indexOf(value);
+  if (index !== -1) {
+    return `Index of ${value}: ${index}`;
+  } else {
+    return `${value} not found in array`;
+  }
 }
+console.log(findElement(['Ace', 10, true], 10));
+// работает в консоли
+
 
 /**
  * Generates an array of odd numbers of the specified length
@@ -40,17 +44,16 @@ function findElement( arr, value ) {
  *    2 => [ 1, 3 ]
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds( len ) {
+function generateOdds(len) {
   if (len <= 0) {
     return [];
   }
-  return Array.from({len: len},(_, index) => {
-    return 2 * index + 1
-  });
+  return Array.from({ length: len }, (_, index) => 2 * index + 1);
 }  
-const NumbersArray = generateOdds(4);
+const NumbersArray = generateOdds(3);
 console.log(NumbersArray);
-// Output: [1, 3, 5, 7, 9]
+// работает в консоли
+
 
 
 /**
@@ -66,11 +69,12 @@ console.log(NumbersArray);
  *    [] => []
  */
 function doubleArray( arr ) {
-  return arr.flatMap(element => [element, element]);
+  return arr.concat(arr);
 }
-const original = [1, 2, 3];
-const doubl = doubleArray(original);
-console.log(doubl);
+const dubl = doubleArray([0, 1, 2, 3, 4, 5]);
+console.log(dubl);
+// работает в консоли
+
 /**
  * Returns an array of positive numbers from the specified array in original order
  *
@@ -86,9 +90,10 @@ function getArrayOfPositives( arr ) {
   return arr.filter( massiv => massiv > chislo );
 }
 let massiv = [-1, 2, -5, -4, 0];
-let chislo = 0
+let chislo = 0;
 let filtNum = getArrayOfPositives(massiv, chislo);
-console.log(filtNum)
+console.log(filtNum);
+// работает в консоли
 
 /**
  * Returns the array with strings only in the specified array (in original order)
@@ -101,9 +106,13 @@ console.log(filtNum)
  *    [ 1, 2, 3, 4, 5 ] => []
  *    [ 'cat, 'dog', 'raccoon' ] => [ 'cat', 'dog', 'raccoon' ]
  */
-function getArrayOfStrings(/* arr */) {
-  throw new Error('Not implemented');
+function getArrayOfStrings(arr) {
+  return  arr.filter(element => typeof element === 'string');
 }
+const mssiv = [1, 4, true, 'dog', 42, 'cat'];
+const stringaarr = getArrayOfStrings(mssiv);
+console.log(stringaarr);
+// работает в консоли
 
 /**
  * Removes falsy values from the specified array
@@ -118,9 +127,11 @@ function getArrayOfStrings(/* arr */) {
  *    [ 1, 2, 3, 4, 5, 'false' ]         => [ 1, 2, 3, 4, 5, 'false' ]
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
-function removeFalsyValues(/* arr */) {
-  throw new Error('Not implemented');
+function removeFalsyValues(arr) {
+  return arr.filter(Boolean(element));
 }
+const massivBoo = [ false, 0, NaN, '', undefined ];
+console.log(massivBoo);
 
 /**
  * Returns the array of uppercase strings from the specified array
@@ -133,8 +144,8 @@ function removeFalsyValues(/* arr */) {
  *    => [ 'PERMANENT-INTERNSHIP', 'GLUTINOUS-SHRIEK', 'MULTIPLICATIVE-ELEVATION' ],
  *    [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]  => [ 'A', 'B', 'C', 'D', 'E', 'F', 'G' ]
  */
-function getUpperCaseStrings(/* arr */) {
-  throw new Error('Not implemented');
+function getUpperCaseStrings(arr) {
+  ;
 }
 
 /**

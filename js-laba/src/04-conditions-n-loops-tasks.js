@@ -189,9 +189,16 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let o = {}
+    for (let l of str)
+        o[l] = !o.hasOwnProperty(l)
+    for (k in o)
+        if (o[k]) return k
+    return null
 }
+console.log(findFirstSingleChar('htytytyt'))
+// работает в консоли
 
 /**
  * Returns the string representation of math interval,
@@ -215,9 +222,23 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded)  {
+  
+  if (isStartIncluded === true){
+    return '[', a, b
+  }
+  if (isStartIncluded === false) {
+    return '(', a, b
+  }
+  
+  if (isEndIncluded === true){
+    return ')'
+  }
+  if (isEndIncluded === false){
+    return  ')'
+  }
 }
+console.log(getIntervalString(3, 4, true, false))
 
 /**
  * Reverse the specified string (put all chars in reverse order)

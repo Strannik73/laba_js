@@ -8,20 +8,7 @@
 // }
 // console.log(isTriangle(4, 9, 6))
 
-function getIntervalString(a, b, isStartIncluded, isEndIncluded)  {
-  
-  if (isStartIncluded === true){
-    return '[', a, b
-  }
-  if (isStartIncluded === false) {
-    return '(', a, b
-  }
-  
-  if (isEndIncluded === true){
-    return ')'
-  }
-  if (isEndIncluded === false){
-    return  ')'
-  }
+function reverseInteger( num ) {
+  return num.toString().split('').reverse().join('');
 }
-console.log(getIntervalString(3, 4, true, false))
+console.log(reverseInteger(12345))

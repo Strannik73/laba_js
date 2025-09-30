@@ -60,12 +60,9 @@ console.log(NumbersArray);
  *    [0, 1, 2, 3, 4, 5] => [0, 1, 2, 3, 4, 5,   0, 1, 2, 3, 4, 5]
  *    [] => []
  */
-function doubleArray( arr ) {
+function doubleArray(arr) {
   return arr.concat(arr);
 }
-const dubl = doubleArray([0, 1, 2, 3, 4, 5]);
-console.log(dubl);
-// работает в консоли
 
 /**
  * Returns an array of positive numbers from the specified array in original order
@@ -78,14 +75,9 @@ console.log(dubl);
  *    [-1, 2, -5, -4, 0] => [ 2 ]
  *    [] => []
  */
-function getArrayOfPositives( arr ) {
-  return arr.filter( massiv => massiv > chislo );
+function getArrayOfPositives(arr) {
+  return arr.filter((n) => n > 0);
 }
-let massiv = [-1, 2, -5, -4, 0];
-let chislo = 0;
-let filtNum = getArrayOfPositives(massiv, chislo);
-console.log(filtNum);
-// работает в консоли
 
 /**
  * Returns the array with strings only in the specified array (in original order)
@@ -99,12 +91,8 @@ console.log(filtNum);
  *    [ 'cat, 'dog', 'raccoon' ] => [ 'cat', 'dog', 'raccoon' ]
  */
 function getArrayOfStrings(arr) {
-  return  arr.filter(element => typeof element === 'string');
+  return arr.filter((item) => typeof item === 'string');
 }
-const mssiv = [1, 4, true, 'dog', 42, 'cat'];
-const stringaarr = getArrayOfStrings(mssiv);
-console.log(stringaarr);
-// работает в консоли
 
 /**
  * Removes falsy values from the specified array
@@ -123,7 +111,6 @@ function removeFalsyValues(arr) {
   return arr.filter(Boolean);
 }
 
-
 /**
  * Returns the array of uppercase strings from the specified array
  *
@@ -136,7 +123,7 @@ function removeFalsyValues(arr) {
  *    [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]  => [ 'A', 'B', 'C', 'D', 'E', 'F', 'G' ]
  */
 function getUpperCaseStrings(arr) {
-  return arr.map((str) => str.UpCase());
+  return arr.map((str) => str.toUpperCase());
 }
 
 /**
@@ -165,8 +152,8 @@ function getStringsLength(arr) {
  *    [ 1, 'b', 'c'], 'x', 0  => [ 'x', 1, 'b', 'c' ]
  */
 function insertItem(arr, item, index) {
-  arr.splise(index,0 ,item);
-  return arr
+  arr.splice(index, 0, item);
+  return arr;
 }
 
 /**
@@ -180,7 +167,7 @@ function insertItem(arr, item, index) {
  *    [ 'a', 'b', 'c', 'd'], 3  => [ 'a', 'b', 'c' ]
  */
 function getHead(arr, n) {
-  return arr.slise(0, n);
+  return arr.slice(0, n);
 }
 
 /**
@@ -193,8 +180,8 @@ function getHead(arr, n) {
  *    [ 1, 3, 4, 5 ], 2  => [ 4, 5 ]
  *    [ 'a', 'b', 'c', 'd'], 3  => [ 'b', 'c', 'd' ]
  */
-function getTail( arr, n ) {
-  return arr.slise(-n)
+function getTail(arr, n) {
+  return arr.slice(-n);
 }
 
 /**

@@ -144,10 +144,14 @@ console.log(isTriangle(4, 9, 6))
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  return !(
+    rect1.left + rect1.width <= rect2.left ||
+    rect2.left + rect2.width <= rect1.left ||
+    rect1.top + rect1.height <= rect2.top ||
+    rect2.top + rect2.height <= rect1.top
+  );
 }
-
 /**
  * Returns true, if point lies inside the circle, otherwise false.
  * Circle is an object of
@@ -174,8 +178,10 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const dx = point.x - circle.center.x;
+  const dy = point.y - circle.center.y;
+  return dx * dx + dy * dy < circle.radius * circle.radius;
 }
 
 /**
@@ -292,10 +298,21 @@ console.log(reverseInteger(12345))
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const digits = String(ccn).split('').map(Number);
+  let sum = 0;
+  let doubleDigit = false;
+  for (let i = digits.length - 1; i >= 0; i -= 1) {
+    let digit = digits[i];
+    if (doubleDigit) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+    doubleDigit = !doubleDigit;
+  }
+  return sum % 10 === 0;
 }
-
 /**
  * Returns the digital root of integer:
  *   step1 : find sum of all digits
@@ -310,8 +327,11 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot( num ) {
-  ;
+function getDigitalRoot(num) {
+  const sum = String(num)
+    .split('')
+    .reduce((acc, digit) => acc + Number(digit), 0);
+  return sum > 9 ? getDigitalRoot(sum) : sum;
 }
 
 /**
@@ -335,8 +355,27 @@ function getDigitalRoot( num ) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  const brackets = {
+    ')': '(',
+    ']': '[',
+    '}': '{',
+    '>': '<',
+  };
+
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    if (Object.values(brackets).includes(char)) {
+      stack.push(char);
+    } else if (Object.keys(brackets).includes(char)) {
+      if (stack.pop() !== brackets[char]) {
+        return false;
+      }
+    }
+  }
+
+  return stack.length === 0;
 }
 
 /**
@@ -359,8 +398,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
@@ -375,10 +414,24 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
-}
+function getCommonDirectoryPath(pathes) {
+  if (pathes.length === 0) return '';
 
+  const splitPaths = pathes.map((path) => path.split('/'));
+
+  const commonSegments = [];
+  for (let i = 0; ; i += 1) {
+    const segmentSet = new Set(splitPaths.map((parts) => parts[i]));
+    if (segmentSet.size === 1 && splitPaths[0][i] !== undefined) {
+      commonSegments.push(splitPaths[0][i]);
+    } else {
+      break;
+    }
+  }
+
+  if (commonSegments.length === 0) return '';
+  return `${commonSegments.join('/')}/`;
+}
 /**
  * Returns the product of two specified matrixes.
  * See details: https://en.wikipedia.org/wiki/Matrix_multiplication
@@ -397,8 +450,20 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rows = m1.length;
+  const cols = m2[0].length;
+  const result = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+  for (let i = 0; i < rows; i += 1) {
+    for (let j = 0; j < cols; j += 1) {
+      for (let k = 0; k < m2.length; k += 1) {
+        result[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -431,8 +496,29 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const isWinningLine = (a, b, c) => a && a === b && a === c;
+
+  for (let i = 0; i < 3; i += 1) {
+    if (isWinningLine(position[i][0], position[i][1], position[i][2])) {
+      return position[i][0];
+    }
+  }
+
+  for (let j = 0; j < 3; j += 1) {
+    if (isWinningLine(position[0][j], position[1][j], position[2][j])) {
+      return position[0][j];
+    }
+  }
+
+  if (isWinningLine(position[0][0], position[1][1], position[2][2])) {
+    return position[0][0];
+  }
+  if (isWinningLine(position[0][2], position[1][1], position[2][0])) {
+    return position[0][2];
+  }
+
+  return undefined;
 }
 
 module.exports = {

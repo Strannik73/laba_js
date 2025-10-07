@@ -81,10 +81,11 @@ console.log(getFactorial(5));
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(n1, n2 ) {
-  return  (n1 + n2) * (n2 - n1 + 1) / 2; 
+function getSumBetweenNumbers(n1, n2) {
+  const count = n2 - n1 + 1;
+  return (count * (n1 + n2)) / 2;
 }
-console.log(getSumBetweenNumbers(1, 3))
+
 
 /**
  * Returns true, if a triangle can be built with the specified sides a, b, c
@@ -101,16 +102,9 @@ console.log(getSumBetweenNumbers(1, 3))
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle( a, b, c ) {
-  if (a<=0 || b<=0 || c<=0) {
-    return false;
-  }
-  if (a + b >= c && a + c >= b && c + b >= a ){
-    return true;
-  }
+function isTriangle(a, b, c) {
+  return a + b > c && a + c > b && b + c > a;
 }
-console.log(isTriangle(4, 9, 6))
-// работает в консоли
 
 /**
  * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
@@ -196,15 +190,18 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  let o = {}
-    for (let l of str)
-        o[l] = !o.hasOwnProperty(l)
-    for (k in o)
-        if (o[k]) return k
-    return null
+  const charCount = {};
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    charCount[char] = (charCount[char] || 0) + 1;
+  }
+
+  for (let i = 0; i < str.length; i += 1) {
+    if (charCount[str[i]] === 1) {
+      return str[i];
+    }
+  }
 }
-console.log(findFirstSingleChar('htytytyt'))
-// работает в консоли
 
 /**
  * Returns the string representation of math interval,
@@ -327,8 +324,8 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(num) {
-  const sum = String(num)
+function getDigitalRoot(n) {
+  const sum = String(n)
     .split('')
     .reduce((acc, digit) => acc + Number(digit), 0);
   return sum > 9 ? getDigitalRoot(sum) : sum;
@@ -416,15 +413,16 @@ function toNaryString(num, n) {
  */
 function getCommonDirectoryPath(pathes) {
   if (pathes.length === 0) return '';
-
   const splitPaths = pathes.map((path) => path.split('/'));
-
   const commonSegments = [];
+
   for (let i = 0; ; i += 1) {
     const segmentSet = new Set(splitPaths.map((parts) => parts[i]));
+    
     if (segmentSet.size === 1 && splitPaths[0][i] !== undefined) {
       commonSegments.push(splitPaths[0][i]);
-    } else {
+    } 
+    else {
       break;
     }
   }
@@ -451,6 +449,7 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
+
   const rows = m1.length;
   const cols = m2[0].length;
   const result = Array.from({ length: rows }, () => Array(cols).fill(0));
@@ -462,7 +461,6 @@ function getMatrixProduct(m1, m2) {
       }
     }
   }
-
   return result;
 }
 
@@ -514,6 +512,7 @@ function evaluateTicTacToePosition(position) {
   if (isWinningLine(position[0][0], position[1][1], position[2][2])) {
     return position[0][0];
   }
+  
   if (isWinningLine(position[0][2], position[1][1], position[2][0])) {
     return position[0][2];
   }
